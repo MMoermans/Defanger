@@ -109,21 +109,6 @@ The exit status is 1 when something is found, so it works as a CI step or a pre-
       files: ^reports/.*\.md$
 ```
 
-## Fewer false positives
-
-Free text is full of things that look like indicators. A domain is only recognised when its last
-label is a real top-level domain from the bundled
-[IANA list](https://data.iana.org/TLD/tlds-alpha-by-domain.txt), so `config.yaml`, `payload.exe`
-or `Node.js` are left alone.
-
-A few TLDs are also common file extensions: `.sh`, `.py`, `.pl`, `.rs`, `.md`, `.zip`, `.mov`,
-`.pm`, `.so`, `.ps` and `.cc`. As bare names they are not treated as domains (`setup.py`,
-`README.md`), but they are inside URLs and email addresses. Pass `--include-ambiguous` to treat
-them as domains everywhere.
-
-Times (`12:30:45`), MAC addresses and version numbers are not IPv6 or IPv4 addresses. Defanging is
-idempotent: running it twice, or on half-defanged text, never double-defangs.
-
 ## As a library
 
 ```python
