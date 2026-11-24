@@ -1,44 +1,23 @@
-def is_ip_address(ip_or_dns: str) -> bool:
-    """
-    Given a string, determines if it is a valid IP address
-    """
-    parts = ip_or_dns.split('.')
-    if len(parts) != 4:
-        return False
-    for part in parts:
-        if not part.isdigit() or int(part) > 255:
-            return False
-    return True
+"""Original entry point, kept so that existing habits and links keep working.
+
+    python fangy.py            asks for a value, as before
+    python fangy.py ARGS...    same as the defanger command (see: python fangy.py --help)
+"""
+
+import sys
+
+from defanger.cli import main
+from defanger.core import defang_text, is_defanged, refang_text
 
 
-def defang(ip_or_dns: str) -> str:
-    """
-    Given an IP address or DNS name, defangs it by replacing the last dot with '[.]'
-    """
-    return ip_or_dns.replace('.', '[.]', ip_or_dns.count('.') - 1)
-
-
-def refang(ip_or_dns: str) -> str:
-    """
-    Given a defanged IP address or DNS name, refangs it by replacing '[.]' with '.'
-    """
-    return ip_or_dns.replace('[.]', '.')
-
-
-# Prompt user for input
-user_input = input("Enter an IP address or DNS name: ")
-
-# Determine whether input needs to be defanged or refanged
-if '[.]' in user_input:
-    # Input needs to be refanged
-    reverted_input = refang(user_input)
-    print("Reverted input:", reverted_input)
-else:
-    # Input needs to be defanged
-    if is_ip_address(user_input):
-        # Input is an IP address
-        defanged_input = defang(user_input)
+def interactive() -> int:
+    value = input("Enter an IP address, DNS name, URL or email address: ").strip()
+    if is_defanged(value):
+        print("Reverted input:", refang_text(value))
     else:
-        # Input is a DNS name
-        defanged_input = defang(user_input)
-    print("Defanged input:", defanged_input)
+        print("Defanged input:", defang_text(value))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(interactive() if len(sys.argv) == 1 and sys.stdin.isatty() else main())

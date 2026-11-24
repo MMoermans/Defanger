@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "defanger"
+dynamic = ["version"]
+description = "Defang and refang IPs, domains, URLs and email addresses in text, files and reports"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Michiel Moermans" }]
+keywords = ["defang", "refang", "ioc", "threat-intelligence", "cti", "security"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Environment :: Console",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+defanger = "defanger.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/MMoermans/Defanger"
+
+[tool.setuptools]
+packages = ["defanger"]
+
+[tool.setuptools.package-data]
+defanger = ["data/tlds.txt", "py.typed"]
+
+[tool.setuptools.dynamic]
+version = { attr = "defanger.__version__" }
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
