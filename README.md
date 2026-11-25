@@ -124,15 +124,6 @@ defang_text("C2 at 203.0.113.7 via http://evil.com/a")
 `defang_text` takes `style`, `only`, `colon`, `include_ambiguous` and `stats` (a `Counter` that
 receives the count per type). `find_iocs`, `defang_value`, `is_defanged` and `expand` are there too.
 
-## What changed in 2.0
-
-- The old `defang()` replaced all dots except the last, so `1.2.3.4` became `1[.]2[.]3.4` and
-  stayed linkable. Every dot in the host is defanged now.
-- Input used to be one value at a time. Now it is any text, files or stdin.
-- New: URLs, email addresses, IPv6, `extract`, `check`, styles, in-place editing, more refang
-  notations, a library API and tests.
-- IP validation uses the standard library: `01.2.3.4` and `256.1.1.1` are no longer accepted.
-
 ## Development
 
 ```bash
